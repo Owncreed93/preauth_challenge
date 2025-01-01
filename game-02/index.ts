@@ -9,11 +9,11 @@ let data: Item[] = [
     {
         "name": "Sulfuras, Hand of Ragnaros",
         "sellIn": 5,
-        "quality": 10
+        "quality": 80
     },
     {
         "name": "Backstage passes to a TAFKAL80ETC concert",
-        "sellIn": 5,
+        "sellIn": 80,
         "quality": 10
     },
     {
@@ -24,11 +24,11 @@ let data: Item[] = [
     {
         "name": "Sulfuras, Hand of Ragnaros",
         "sellIn": 5,
-        "quality": 10
+        "quality": 80
     },
     {
         "name": "Backstage passes to a TAFKAL80ETC concert",
-        "sellIn": 5,
+        "sellIn": 60,
         "quality": 10
     }
 ];
