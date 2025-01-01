@@ -17,6 +17,31 @@ export class GildedRose {
         this.items = items;
     }
 
+    updateAgedBrie(item: Item) {
+        if (item.sellIn > 0) {
+            item.sellIn -= 1
+            if (item.quality < 50) item.quality += 1; 
+        };
+    }
+
+    updateBacktagePasses(item: Item){
+        // const regex = /^Backstage passes/;
+        // if (regex.test(item.name))
+        if (item.sellIn > 0) {
+            item.sellIn -= 1
+            if (item.sellIn <= 10){
+                item.quality < 49 ? item.quality += 2 : item.quality += 1;
+            } else if (item.sellIn <= 5){
+                item.quality < 48 ? item.quality += 3 : item.quality += 2;
+            } else {
+                if (item.quality < 50) item.quality += 1;
+            }
+        } else {
+            item.quality = 0;
+        }
+
+    }
+
     updateQuality() {
         for (let i = 0; i < this.items.length; i++) {
             if (this.items[i].name != 'Aged Brie' && this.items[i].name != 'Backstage passes to a TAFKAL80ETC concert') {
@@ -65,5 +90,14 @@ export class GildedRose {
         }
 
         return this.items;
+    }
+
+    updateQualityTwo() {
+        for (const items of this.items) {
+            if (items.name === 'Aged Brie') {
+                
+            }
+        }
+        return this.items
     }
 }
