@@ -17,6 +17,18 @@ export class GildedRose {
         this.items = items;
     }
 
+    updateDaysLeftToSell(item: Item, factor: number = 1){
+        if (item.sellIn > 0) item.sellIn -= factor;
+    }
+
+    increaseQuality(item: Item, factor: number = 1){
+        if (item.quality < 50) item.quality += factor;
+    }
+
+    decreaseQuality(item: Item, factor: number = 1){
+        if (item.quality < 50) item.quality -= factor;
+    }
+
     updateAgedBrie(item: Item) {
         if (item.sellIn > 0) {
             item.sellIn -= 1
@@ -40,6 +52,36 @@ export class GildedRose {
             item.quality = 0;
         }
 
+    }
+
+    updateConjured(item: Item){
+        if (item.sellIn > 0) {
+            item.sellIn -= 1;
+            if (item.quality > 0) item.quality -= 2; 
+        }
+    }
+
+    updateNormalItem(item: Item){
+        if (item.sellIn > 0) {
+            item.sellIn -= 1;
+            if (item.quality > 0) item.quality -= 1; 
+        }
+    }
+
+    compareProductName(pattern: string, stringToCompare: string): boolean{
+        const regex_patern = new RegExp(`^${pattern}`);
+        let result = false;
+        if (regex_patern.test(stringToCompare)) result = true;
+        return result
+    }
+
+    showItems(){
+        for (const item of this.items) {
+            console.log(item)
+            // console.log(item.name);
+            // console.log(item.sellIn)
+            // console.log(item.quality);
+        }
     }
 
     updateQuality() {
@@ -93,9 +135,17 @@ export class GildedRose {
     }
 
     updateQualityTwo() {
-        for (const items of this.items) {
-            if (items.name === 'Aged Brie') {
-                
+        for (const item of this.items) {
+            if (item.name === 'Aged Brie') {
+                this.updateAgedBrie(item);
+            } else if (this.compareProductName('Backstage passes', item.name)){
+                this.updateBacktagePasses(item);
+            } else if (this.compareProductName('Conjured', item.name)){
+                this.updateConjured(item);
+            } else if (this.compareProductName('Sulfuras', item.name)) {
+                continue;
+            } else {
+                this.updateNormalItem(item);
             }
         }
         return this.items
