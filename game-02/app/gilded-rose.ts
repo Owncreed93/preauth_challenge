@@ -23,6 +23,7 @@ export class GildedRose {
 
     checkQuality(item: Item, positive: boolean = true, factor: number = 1, limit: number = 50){
         if (item.quality > 0 && item.quality < limit){
+            // CHECK BACKTAGE LOGIC
             //if ( (item.quality -= factor) < 0 ) item.quality -= item.quality 
             //if ( (item.quality += factor) > limit ) item.quality -= item.quality 
             positive ? item.quality += factor : item.quality -= factor
@@ -58,9 +59,9 @@ export class GildedRose {
     updateConjured(item: Item){
         this.checkSellIn(item);
         if (item.sellIn > 0){
-            this.checkQuality(item, false, 2)  
+            item.quality > 1 ? this.checkQuality(item, false, 2) : this.checkQuality(item, false)
         } else {
-            this.checkQuality(item, false, 4);
+            item.quality > 3 ? this.checkQuality(item, false, 4) : this.checkQuality(item, false, item.quality)
         }
     }
 
