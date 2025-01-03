@@ -59,9 +59,11 @@ export class GildedRose {
     updateConjured(item: Item){
         this.checkSellIn(item);
         if (item.sellIn > 0){
-            item.quality > 1 ? this.checkQuality(item, false, 2) : this.checkQuality(item, false)
+            item.quality > 1 ? this.checkQuality(item, false, 2) : this.checkQuality(item, false);
         } else {
-            item.quality > 3 ? this.checkQuality(item, false, 4) : this.checkQuality(item, false, item.quality)
+            item.quality > 3 ? 
+                this.checkQuality(item, false, 4) : 
+                this.checkQuality(item, false, item.quality);
         }
     }
 
