@@ -17,55 +17,65 @@ export class GildedRose {
         this.items = items;
     }
 
-    updateDaysLeftToSell(item: Item, factor: number = 1){
+    checkSellIn(item: Item, factor: number = 1){
         if (item.sellIn > 0) item.sellIn -= factor;
     }
 
-    increaseQuality(item: Item, factor: number = 1){
-        if (item.quality < 50) item.quality += factor;
-    }
-
-    decreaseQuality(item: Item, factor: number = 1){
-        if (item.quality < 50) item.quality -= factor;
-    }
-
-    updateAgedBrie(item: Item) {
-        if (item.sellIn > 0) {
-            item.sellIn -= 1
-            if (item.quality < 50) item.quality += 1; 
+    checkQuality(item: Item, positive: boolean = true, factor: number = 1, limit: number = 50){
+        if (item.quality > 0 && item.quality < limit){
+            //if ( (item.quality -= factor) < 0 ) item.quality -= item.quality 
+            //if ( (item.quality += factor) > limit ) item.quality -= item.quality 
+            positive ? item.quality += factor : item.quality -= factor
         };
     }
 
-    updateBacktagePasses(item: Item){
-        // const regex = /^Backstage passes/;
-        // if (regex.test(item.name))
-        if (item.sellIn > 0) {
-            item.sellIn -= 1
-            if (item.sellIn <= 10){
-                item.quality < 49 ? item.quality += 2 : item.quality += 1;
-            } else if (item.sellIn <= 5){
-                item.quality < 48 ? item.quality += 3 : item.quality += 2;
-            } else {
-                if (item.quality < 50) item.quality += 1;
-            }
-        } else {
-            item.quality = 0;
-        }
+    updateAgedBrie(item: Item) {
+        // if (item.sellIn > 0) {
+        //     item.sellIn -= 1
+        //     if (item.quality < 50) item.quality += 1; 
+        // };
+        this.checkSellIn(item);
+        this.checkQuality(item)
+    }
 
+    updateBacktagePasses(item: Item){
+        if ( item.sellIn === 0 ){
+            item.quality = 0;
+        } else {
+            this.checkSellIn(item)
+            if (item.quality !== 50) {
+                if (item.sellIn >= 6 && item.sellIn <= 10){
+                    item.quality < 49 ? item.quality += 2 : item.quality += 1;
+                } else if (item.sellIn <= 5){
+                    item.quality < 48 ? item.quality += 3 : item.quality += 2;
+                } else {
+                    if (item.quality < 50) item.quality += 1;
+                }
+            }
+        }
     }
 
     updateConjured(item: Item){
-        if (item.sellIn > 0) {
-            item.sellIn -= 1;
-            if (item.quality > 0) item.quality -= 2; 
+        this.checkSellIn(item);
+        if (item.sellIn > 0){
+            this.checkQuality(item, false, 2)  
+        } else {
+            this.checkQuality(item, false, 4);
         }
     }
 
     updateNormalItem(item: Item){
-        if (item.sellIn > 0) {
-            item.sellIn -= 1;
-            if (item.quality > 0) item.quality -= 1; 
+        // if (item.sellIn > 0) {
+        //     item.sellIn -= 1;
+        //     if (item.quality > 0) item.quality -= 1; 
+        // }
+        this.checkSellIn(item);
+        if (item.sellIn > 0){
+            this.checkQuality(item, false);
+        } else {
+            this.checkQuality(item, false, 2);
         }
+        
     }
 
     compareProductName(pattern: string, stringToCompare: string): boolean{
